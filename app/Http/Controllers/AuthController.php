@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\SignupRequestForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -14,8 +17,26 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'signup']]);
     }
+
+    /**
+     * User registration in database
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function signup(SignupRequestForm $request)
+    {
+        DB::table('users')->insert([
+            "name"     => $request->input('name'),
+            "email"    => $request->input('email'),
+            "password" => Hash::make($request->input('password'))
+        ]);
+
+        return $this->login($request);
+    }
+
+
 
     /**
      * Get a JWT via given credentials.
@@ -24,7 +45,6 @@ class AuthController extends Controller
      */
     public function login()
     {
-        return "ok";
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
