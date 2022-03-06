@@ -73,7 +73,7 @@ export default {
         }
     },
     methods:{
-        login(){
+        register(){
             axios.post('/api/auth/login', this.form)
                 .then( res => {
                     User.responseAfterLogin(res)

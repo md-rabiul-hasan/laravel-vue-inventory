@@ -26,8 +26,14 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function signup(SignupRequestForm $request)
+    public function signup(Request $request)
     {
+        $request->validate([
+            'name'     => 'required',
+            'email'    => 'required|unique:users|max:255',
+            'password' => 'required|confirmed'
+        ]);
+
         DB::table('users')->insert([
             "name"     => $request->input('name'),
             "email"    => $request->input('email'),
