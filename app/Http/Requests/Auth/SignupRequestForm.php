@@ -27,12 +27,12 @@ class SignupRequestForm extends FormRequest
      *
      * @return json
      */
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'success' => false,
-            'status'  => 400,
-            'message' => $validator->errors()->first()
-        ]));
-    }
+    // public function failedValidation(Validator $validator)
+    // {
+    //     throw new HttpResponseException(response()->json([
+    //         'success' => false,
+    //         'status'  => 400,
+    //         'message' => $validator->errors()->first()
+    //     ]));
+    // }
 }

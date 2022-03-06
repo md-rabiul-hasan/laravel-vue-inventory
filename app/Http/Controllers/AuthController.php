@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Validation\Validator;
 
 class AuthController extends Controller
 {
@@ -45,7 +46,11 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        file_put_contents("m.txt", json_encode($request->all()));
+        $request->validate([
+            'email'    => 'required',
+            'password' => 'required',
+        ]);
+
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
