@@ -67,7 +67,10 @@ export default {
     methods:{
         login(){
             axios.post('/api/auth/login', this.form)
-                .then( res => User.responseAfterLogin(res))
+                .then( res => {
+                    User.responseAfterLogin(res)
+                    this.$router.push({ name:'home' })
+                })
                 .catch( err => console.log(err.res.data))
         }
     }
