@@ -56,6 +56,11 @@
 
 <script>
 export default {
+    created(){
+        if(User.loggedIn()){
+            this.$router.push('home');
+        }
+    },
     data(){
         return{
             form:{
