@@ -5749,7 +5749,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    register: function register() {
+    login: function login() {
       var _this = this;
 
       axios.post('/api/auth/login', this.form).then(function (res) {
@@ -33583,7 +33583,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-xl-6 col-lg-12 col-md-9" }, [
+      _c("div", { staticClass: "col-xl-6 col-lg-12 col-md-6" }, [
         _c("div", { staticClass: "card shadow-sm my-5" }, [
           _c("div", { staticClass: "card-body p-0" }, [
             _c("div", { staticClass: "row" }, [
