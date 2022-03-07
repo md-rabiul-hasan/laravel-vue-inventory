@@ -4,8 +4,12 @@ import Register from './components/auth/Register.vue';
 import ForgetPassword from './components/auth/ForgetPassword.vue';
 import Logout from './components/auth/Logout.vue';
 
-
+// Dashboard
 import Home from './components/Home.vue';
+
+// Employee
+import AddEmployee from './components/employee/Create.vue';
+import AllEmployee from './components/employee/Index.vue';
  
 export const routes = [
     {
@@ -32,5 +36,15 @@ export const routes = [
         name: 'home',
         path: '/home',
         component: Home
+    },
+    {
+        name: 'create_employee',
+        path: '/create-employee',
+        component: AddEmployee
+    },
+    {
+        name: 'all_employee',
+        path: '/employees',
+        component: AllEmployee
     }
 ];
