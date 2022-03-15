@@ -1,9 +1,9 @@
 class Notification{
-    success(){
+    success(message){
         new Noty({
             type: 'success',
             layout:'topRight',
-            text: 'Success',
+            text: message,
             timeout: 1000
         }).show();
     }
@@ -17,11 +17,11 @@ class Notification{
         }).show();
     }
 
-    error(){
+    error(message){
         new Noty({
             type: 'error',
             layout:'topRight',
-            text: 'Failed',
+            text: message,
             timeout: 1000
         }).show();
     }
