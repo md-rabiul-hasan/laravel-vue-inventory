@@ -43,7 +43,7 @@
                         <td>{{ employee.joining_date }}</td>
                         <td>
                           <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                          <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                          <a @click="deleteEmployee(employee.id)" class="btn btn-sm btn-danger">Delete</a>
                         </td>
                       </tr>
                      
@@ -84,6 +84,30 @@ export default {
       })
       .catch( error => {
         this.errors = error.response.data.errors;
+      })
+    },
+    deleteEmployee(employee_id){
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to delete this employee!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete('/api/employee/'+employee_id)
+          .then( () => {
+            this.employees = this.employees.filter(employee => {
+              return employee.id != employee_id;
+            })
+            Notification.success("Employee Delete successfully");
+          })
+          .catch( (res) => {
+            this.$router.push({ name: 'all_employee'})
+          } )
+        }
       })
     }
   },

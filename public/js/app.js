@@ -6198,13 +6198,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     })["catch"](function (error) {
       _this.errors = error.response.data.errors;
     });
+  },
+  deleteEmployee: function deleteEmployee(employee_id) {
+    var _this2 = this;
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this employee!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        axios["delete"]('/api/employee/' + employee_id).then(function () {
+          _this2.employees = _this2.employees.filter(function (employee) {
+            return employee.id != employee_id;
+          });
+          Notification.success("Employee Delete successfully");
+        })["catch"](function (res) {
+          _this2.$router.push({
+            name: 'all_employee'
+          });
+        });
+      }
+    });
   }
 }), _defineProperty(_created$data$created, "computed", {
   filterEmployee: function filterEmployee() {
-    var _this2 = this;
+    var _this3 = this;
 
     return this.employees.filter(function (employee) {
-      return employee.name.match(_this2.searchText);
+      return employee.name.match(_this3.searchText);
     });
   }
 }), _created$data$created);
@@ -38684,7 +38710,29 @@ var render = function () {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(employee.joining_date))]),
                       _vm._v(" "),
-                      _vm._m(3, true),
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-sm btn-primary",
+                            attrs: { href: "#" },
+                          },
+                          [_vm._v("Edit")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-sm btn-danger",
+                            on: {
+                              click: function ($event) {
+                                return _vm.deleteEmployee(employee.id)
+                              },
+                            },
+                          },
+                          [_vm._v("Delete")]
+                        ),
+                      ]),
                     ])
                   }),
                   0
@@ -38768,20 +38816,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Joining Date")]),
         _vm._v(" "),
         _c("th", [_vm._v("Action")]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { staticClass: "btn btn-sm btn-primary", attrs: { href: "#" } }, [
-        _vm._v("Edit"),
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "btn btn-sm btn-danger", attrs: { href: "#" } }, [
-        _vm._v("Delete"),
       ]),
     ])
   },
