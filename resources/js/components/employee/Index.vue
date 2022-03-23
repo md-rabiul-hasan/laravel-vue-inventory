@@ -11,6 +11,9 @@
 
           <div class="row">
             <div class="col-lg-12 mb-4">
+
+              <input type="text" v-model="searchText" class="form-control" style="width: 300px; margin-bottom: 10px;"> 
+
               <!-- Simple Tables -->
               <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -20,49 +23,30 @@
                   <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                       <tr>
-                        <th>ID</th>
-                        <th>Customer</th>
-                        <th>Item</th>
-                        <th>Status</th>
+                        <th>Name</th>
+                        <th>Photo</th>
+                        <th>Phone</th>
+                        <th>Salary</th>
+                        <th>Joining Date</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td><a href="#">RA0449</a></td>
-                        <td>Udin Wayang</td>
-                        <td>Nasi Padang</td>
-                        <td><span class="badge badge-success">Delivered</span></td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
+                      
+                      <tr v-for="employee in filterEmployee" :key="employee.id">
+                        <td>{{ employee.name }}</td>
+                        <td>
+                          <img :src="employee.photo" alt="" class="employee-img">
+                        </td>
+                        <td>{{ employee.phone }}</td>
+                        <td>{{ employee.salary }}</td>
+                        <td>{{ employee.joining_date }}</td>
+                        <td>
+                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                          <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
                       </tr>
-                      <tr>
-                        <td><a href="#">RA5324</a></td>
-                        <td>Jaenab Bajigur</td>
-                        <td>Gundam 90' Edition</td>
-                        <td><span class="badge badge-warning">Shipping</span></td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                      </tr>
-                      <tr>
-                        <td><a href="#">RA8568</a></td>
-                        <td>Rivat Mahesa</td>
-                        <td>Oblong T-Shirt</td>
-                        <td><span class="badge badge-danger">Pending</span></td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                      </tr>
-                      <tr>
-                        <td><a href="#">RA1453</a></td>
-                        <td>Indri Junanda</td>
-                        <td>Hat Rounded</td>
-                        <td><span class="badge badge-info">Processing</span></td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                      </tr>
-                      <tr>
-                        <td><a href="#">RA1998</a></td>
-                        <td>Udin Cilok</td>
-                        <td>Baby Powder</td>
-                        <td><span class="badge badge-success">Delivered</span></td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                      </tr>
+                     
                     </tbody>
                   </table>
                 </div>
@@ -72,40 +56,51 @@
           </div>
           <!--Row-->
 
-          <!-- Modal Logout -->
-          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>Are you sure you want to logout?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                  <a href="login.html" class="btn btn-primary">Logout</a>
-                </div>
-              </div>
-            </div>
-          </div>
   </div>
 </template>
 
 <script>
 export default {
-created(){
+  created(){
     if(!User.loggedIn()){
       this.$router.push('login');
+    }
+  },
+  data(){
+    return {
+      employees : [],
+      searchText: ''
+    }
+  },
+  created(){
+    this.employeeList();
+  },
+  methods:{
+    employeeList(){
+      axios.get('api/employee')
+      .then( ({data}) => {
+        this.employees = data;
+        Notification.success("Employee List Fetching successfully");
+      })
+      .catch( error => {
+        this.errors = error.response.data.errors;
+      })
+    }
+  },
+  computed:{
+    filterEmployee(){
+      return this.employees.filter( employee => {
+        return employee.name.match(this.searchText);
+      } )
     }
   }
 }
 </script>
 
 <style>
-
+  .employee-img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
 </style>
