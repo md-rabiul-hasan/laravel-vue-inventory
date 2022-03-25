@@ -80,7 +80,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $employees = DB::table('employees')->where('id', $id)->first();
+        return response()->json($employees);
     }
 
     /**

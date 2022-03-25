@@ -10,6 +10,7 @@ import Home from './components/Home.vue';
 // Employee
 import AddEmployee from './components/employee/Create.vue';
 import AllEmployee from './components/employee/Index.vue';
+import EditEmployee from './components/employee/Edit.vue';
  
 export const routes = [
     {
@@ -46,5 +47,10 @@ export const routes = [
         name: 'all_employee',
         path: '/employees',
         component: AllEmployee
+    },
+    {
+        name: 'edit_employee',
+        path: '/employee/edit/:id',
+        component: EditEmployee
     }
 ];
