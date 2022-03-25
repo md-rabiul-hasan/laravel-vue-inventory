@@ -104,7 +104,44 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        file_put_contents("mm.txt", json_encode($request->all()));
+        $employee = DB::table('employees')->where('id', $id)->first();
+        $request->validate([
+            'name'     => 'required',
+            'email'    => 'required|max:255',
+            'phone'    => 'required',
+        ]);
+
+        if($request->newphoto){ // photo found
+            $position = strpos($request->newphoto, ';');
+            $sub = substr($request->newphoto, 0, $position);
+            $extension = explode("/", $sub)[1];
+            
+            $name = time().".".$extension;
+            $img = Image::make($request->newphoto)->resize(240, 400);
+            $upload_path = "backend/employee/";
+            $image_url = $upload_path.$name;
+            $img->save($image_url);
+
+            // old image unlink
+            if($employee->photo){
+                unlink($employee->photo);
+            }
+        }else{
+            $image_url = $employee->photo;
+        }
+
+        $employee               = Employee::find($id);
+        $employee->name         = $request->input('name');
+        $employee->email        = $request->input('email');
+        $employee->phone        = $request->input('phone');
+        $employee->address      = $request->input('address');
+        $employee->salary       = $request->input('salary');
+        $employee->photo        = $image_url;
+        $employee->nid          = $request->input('nid');
+        $employee->joining_date = $request->input('joining_date');
+        $employee->save();
+
     }
 
     /**

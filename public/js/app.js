@@ -6230,6 +6230,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         name: null,
         email: null,
         photo: null,
+        newphoto: '',
         phone: null,
         address: null,
         salary: null,
@@ -6240,15 +6241,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: {
-    storeEmployee: function storeEmployee() {
+    updateEmployee: function updateEmployee() {
       var _this = this;
 
-      axios.post('api/employee', this.form).then(function (res) {
+      var id = this.$route.params.id;
+      axios.patch('/api/employee/' + id, this.form).then(function (res) {
         _this.$router.push({
           name: 'all_employee'
         });
 
-        Notification.success("Employee added successfully");
+        Notification.success("Employee updated successfully");
       })["catch"](function (error) {
         _this.errors = error.response.data.errors;
       });
@@ -6264,7 +6266,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var reader = new FileReader();
 
         reader.onload = function (event) {
-          _this2.form.photo = event.target.result;
+          _this2.form.newphoto = event.target.result;
         };
 
         reader.readAsDataURL(file);
@@ -38933,7 +38935,7 @@ var render = function () {
                 on: {
                   submit: function ($event) {
                     $event.preventDefault()
-                    return _vm.storeEmployee.apply(null, arguments)
+                    return _vm.updateEmployee.apply(null, arguments)
                   },
                 },
               },
@@ -39215,7 +39217,7 @@ var render = function () {
                     _c("div", { staticClass: "form-group" }, [
                       _c("img", {
                         staticStyle: { height: "60px", width: "60px" },
-                        attrs: { src: _vm.form.photo },
+                        attrs: { src: _vm.form.newphoto },
                       }),
                       _vm._v(" "),
                       _c("br"),

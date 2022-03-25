@@ -19,7 +19,7 @@
                   <h6 class="m-0 font-weight-bold text-primary">Edit Employee</h6>
                 </div>
                 <div class="card-body">
-                  <form @submit.prevent="storeEmployee" enctype="multipart/form-data" >
+                  <form @submit.prevent="updateEmployee" enctype="multipart/form-data" >
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
@@ -83,7 +83,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <img :src="form.photo"  style="height:60px; width:60px;" />
+                          <img :src="form.newphoto"  style="height:60px; width:60px;" />
                           <br>
                           <input type="file" class="custom-file-input" id="customFile" @change="employeePhotoSelect">
                           <label class="custom-file-label" for="customFile">Employee Photo</label>
@@ -119,6 +119,7 @@ export default {
         name        : null,
         email       : null,
         photo       : null,
+        newphoto    : '',
         phone       : null,
         address     : null,
         salary      : null,
@@ -129,15 +130,16 @@ export default {
     }
   },
   methods:{
-    storeEmployee(){
-      axios.post('api/employee', this.form)
-      .then( (res) => {
-        this.$router.push({name: 'all_employee'});
-        Notification.success("Employee added successfully");
-      })
-      .catch( error => {
-        this.errors = error.response.data.errors;
-      })
+    updateEmployee(){
+        let id = this.$route.params.id;
+        axios.patch('/api/employee/'+id, this.form)
+        .then( (res) => {
+            this.$router.push({name: 'all_employee'});
+            Notification.success("Employee updated successfully");
+        })
+        .catch( error => {
+            this.errors = error.response.data.errors;
+        })
     },
     employeePhotoSelect(event){
       var file = event.target.files[0];
@@ -146,7 +148,7 @@ export default {
       }else{
         let reader = new FileReader();
         reader.onload = event => {
-          this.form.photo = event.target.result;
+          this.form.newphoto = event.target.result;
         }
         reader.readAsDataURL(file);
       }
