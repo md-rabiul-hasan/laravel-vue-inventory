@@ -6857,19 +6857,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }
 }, _defineProperty(_created$data$created, "created", function created() {
   this.getAllSupplier();
+}), _defineProperty(_created$data$created, "computed", {
+  filterSupplier: function filterSupplier() {
+    var _this = this;
+
+    return this.suppliers.filter(function (supplier) {
+      return supplier.name.match(_this.searchText);
+    });
+  }
 }), _defineProperty(_created$data$created, "methods", {
   getAllSupplier: function getAllSupplier() {
-    var _this = this;
+    var _this2 = this;
 
     axios.get('/api/supplier').then(function (_ref) {
       var data = _ref.data;
-      _this.suppliers = data;
+      _this2.suppliers = data;
     })["catch"](function (error) {
-      _this.errors = error.response.data.errors;
+      _this2.errors = error.response.data.errors;
     });
   },
   deleteSupplier: function deleteSupplier(supplier_id) {
-    var _this2 = this;
+    var _this3 = this;
 
     Swal.fire({
       title: 'Are you sure?',
@@ -6882,12 +6890,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }).then(function (result) {
       if (result.isConfirmed) {
         axios["delete"]('/api/supplier/' + supplier_id).then(function () {
-          _this2.suppliers = _this2.suppliers.filter(function (supplier) {
+          _this3.suppliers = _this3.suppliers.filter(function (supplier) {
             return supplier.id != supplier_id;
           });
           Notification.success("Supplier Delete successfully");
         })["catch"](function (res) {
-          _this2.$router.push({
+          _this3.$router.push({
             name: 'all_supplier'
           });
         });
@@ -41007,7 +41015,7 @@ var render = function () {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.suppliers, function (supplier) {
+                  _vm._l(_vm.filterSupplier, function (supplier) {
                     return _c("tr", { key: supplier.id }, [
                       _c("td", [_vm._v(_vm._s(supplier.name))]),
                       _vm._v(" "),

@@ -33,7 +33,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="supplier in suppliers" :key="supplier.id">
+                      <tr v-for="supplier in filterSupplier" :key="supplier.id">
                           <td>{{ supplier.name }}</td>
                           <td>
                               <img :src="supplier.photo" style="width:40px; height:40px;" alt="">
@@ -77,6 +77,13 @@ export default {
     },
     created(){
         this.getAllSupplier();
+    },
+    computed:{
+        filterSupplier(){
+            return this.suppliers.filter( supplier => {
+                return supplier.name.match(this.searchText);
+            } )
+        }
     },
     methods:{
         getAllSupplier(){
