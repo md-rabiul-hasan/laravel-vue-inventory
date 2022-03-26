@@ -104,7 +104,6 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        file_put_contents("mm.txt", json_encode($request->all()));
         $employee = DB::table('employees')->where('id', $id)->first();
         $request->validate([
             'name'     => 'required',
