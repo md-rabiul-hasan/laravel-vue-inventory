@@ -11,6 +11,11 @@ import Home from './components/Home.vue';
 import AddEmployee from './components/employee/Create.vue';
 import AllEmployee from './components/employee/Index.vue';
 import EditEmployee from './components/employee/Edit.vue';
+
+// Supplier
+import AllSupplier from './components/supplier/Index.vue';
+import AddSupplier from './components/supplier/Create.vue';
+import EditSupplier from './components/supplier/Edit.vue';
  
 export const routes = [
     {
@@ -38,6 +43,8 @@ export const routes = [
         path: '/home',
         component: Home
     },
+
+    // Employee Route 
     {
         name: 'create_employee',
         path: '/create-employee',
@@ -52,5 +59,22 @@ export const routes = [
         name: 'edit_employee',
         path: '/employee/edit/:id',
         component: EditEmployee
-    }
+    },
+
+    // Supplier Route
+    {
+        name: 'all_supplier',
+        path: '/supplier',
+        component: AllSupplier
+    },
+    {
+        name: 'create_supplier',
+        path: '/create-supplier',
+        component: AddSupplier
+    },
+    {
+        name: 'edit_supplier',
+        path: '/supplier/edit/:id',
+        component: EditSupplier
+    },
 ];
