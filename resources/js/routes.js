@@ -22,6 +22,11 @@ import AllCategory from './components/category/Index.vue';
 import AddCategory from './components/category/Create.vue';
 import EditCategory from './components/category/Edit.vue';
 
+// Product
+import AllProduct from './components/product/Index.vue';
+import AddProduct from './components/product/Create.vue';
+import EditProduct from './components/product/Edit.vue';
+
 export const routes = [
     {
         name: 'login',
@@ -98,5 +103,22 @@ export const routes = [
         name: 'edit_category',
         path: '/category/edit/:id',
         component: EditCategory
+    },
+
+    // Supplier Route
+    {
+        name: 'all_product',
+        path: '/products',
+        component: AllProduct
+    },
+    {
+        name: 'create_product',
+        path: '/create-product',
+        component: AddProduct
+    },
+    {
+        name: 'edit_product',
+        path: '/product/edit/:id',
+        component: EditProduct
     },
 ];
